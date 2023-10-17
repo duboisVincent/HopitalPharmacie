@@ -246,10 +246,11 @@ public static boolean authentification(String pLogin, String pMdp) throws NoSuch
         return (i > 0);
     }
 
-    public static boolean sortie(int idMedicament, int quantite, int idEmploye) throws SQLException {
+    public static boolean sortie(int idMedicament, int quantite) throws SQLException {
         Connection conn = connexion();
         int i = 0;
-        int j=0;
+        int j = 0;
+        int idEmploye = lEmploye.getId();
         try {
             //creation de la ligne de sortie dans la table Sortie
             PreparedStatement insert = conn.prepareStatement("insert into \"sortie\" (date,idemploye,idmedicament,quantite) values(?,?,?,?)");
@@ -259,22 +260,36 @@ public static boolean authentification(String pLogin, String pMdp) throws NoSuch
             insert.setInt(3, idMedicament);
             insert.setInt(4, quantite);
             //update de la table medicament afin de changer la quantite
-            PreparedStatement update=conn.prepareStatement("update \"medicament\" set quantite =quantite-? where id=?");
-            update.setInt(1, quantite);
-            update.setInt(2, idMedicament);
-            
-            j=update.executeUpdate();
             i=insert.executeUpdate();
         }catch (SQLException e){
             System.out.println(e);
         }
-        return(i>0 && j>0);
+        return(i>0);
+    }
+    
+    public static boolean validerSortie(Sortie uneSortie,int idAdmin, boolean estValide){
+        Connection conn = connexion();
+        int i = 0;
+        boolean retour = false;
+        try {
+            PreparedStatement sql = conn.prepareStatement("UPDATE \"sortie\" SET \"idadmin\"=?, \"estvalide\"=? where id=?;");
+            sql.setInt(1, idAdmin);
+            sql.setBoolean(2, estValide );
+            sql.setInt(3, uneSortie.getIdSortie());
+            i = sql.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Erreur : " + e);
+        }
+        if (i > 0) {
+            retour = true;
+        }
+        return (retour);
     }
     
     public static ArrayList<Sortie> getAllSorties(){
         Connection conn = connexion();
         PreparedStatement prepare;
-        String requete = "Select \"id\",\"idemploye\",\"date\",\"quantite\",\"idmedicament\" from \"sortie\" ORDER BY \"date\" asc ";
+        String requete = "Select \"id\",\"idemploye\",\"date\",\"quantite\",\"idmedicament\",\"idadmin\",\"estvalide\" from \"sortie\" ORDER BY \"date\" asc ";
         ArrayList<Sortie> lesSorties= new ArrayList<>();
         ResultSet jeuResultat ;
         try{
@@ -286,7 +301,10 @@ public static boolean authentification(String pLogin, String pMdp) throws NoSuch
                 LocalDate dateSortie = jeuResultat.getObject(3,LocalDate.class);
                 int nbProduits = jeuResultat.getInt(4);
                 int idProduit = jeuResultat.getInt(5);
-                Sortie s1 = new Sortie(idSortie, dateSortie, employe, nbProduits, idProduit );
+                int idAdmin = jeuResultat.getInt(6);
+                boolean estValide = jeuResultat.getBoolean(7);
+                Sortie s1;
+                s1 = new Sortie(idSortie, dateSortie, employe, nbProduits, idProduit,idAdmin , estValide);
                 lesSorties.add(s1); 
             }
         }catch(SQLException e){

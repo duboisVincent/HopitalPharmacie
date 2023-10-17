@@ -8,25 +8,26 @@ package pharmacie;
  *
  * @author kban6
  */
+
 public class JDUneSortie extends javax.swing.JDialog {
 
     /**
      * Creates new form JDUneSortie
      */
-    
+    private Sortie laSortie;
     private JDSorties Sortie;
     
     public JDUneSortie(java.awt.Frame parent, boolean modal, Sortie laSortie) {
         super(parent, modal);
         initComponents();
-
+        this.laSortie = laSortie;
         txtEmploye.setText(laSortie.getUtilisateur() + "");
         txtEmploye.setEditable(false);
         txtDateSortie.setText(laSortie.getDateSortie() + "");
         txtDateSortie.setEditable(false);
         txtProduitSortie.setText(laSortie.getLibelleProduit() + "");
         txtProduitSortie.setEditable(false);
-        txtQtteSortie.setText(laSortie.getNbProduits() + "");
+        txtQtteSortie.setText(laSortie.getNbProduits()+ "");
         txtQtteSortie.setEditable(false);
 
 
@@ -53,6 +54,9 @@ public class JDUneSortie extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        ValiderBtn = new javax.swing.JToggleButton();
+        nePasValiderBtn = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -99,28 +103,51 @@ public class JDUneSortie extends javax.swing.JDialog {
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Quantité sortie :");
 
+        ValiderBtn.setText("Valider Sortie");
+        ValiderBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ValiderBtnMouseClicked(evt);
+            }
+        });
+
+        nePasValiderBtn.setText("Ne Pas Valider Sortie");
+        nePasValiderBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nePasValiderBtnMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(250, Short.MAX_VALUE)
+                .addGap(28, 28, 28)
                 .addComponent(btnPDF)
-                .addGap(187, 187, 187)
+                .addGap(28, 28, 28)
+                .addComponent(ValiderBtn)
+                .addGap(39, 39, 39)
+                .addComponent(nePasValiderBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
                 .addComponent(btnQuitter)
                 .addGap(47, 47, 47))
             .addGroup(layout.createSequentialGroup()
-                .addGap(200, 200, 200)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtEmploye)
-                    .addComponent(txtDateSortie)
-                    .addComponent(txtProduitSortie)
-                    .addComponent(txtQtteSortie)
-                    .addComponent(lblInfoSortie, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(200, 200, 200)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtEmploye)
+                            .addComponent(txtDateSortie)
+                            .addComponent(txtProduitSortie)
+                            .addComponent(txtQtteSortie)
+                            .addComponent(lblInfoSortie, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(311, 311, 311)
+                        .addComponent(jLabel5)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -144,14 +171,15 @@ public class JDUneSortie extends javax.swing.JDialog {
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtQtteSortie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnQuitter)
-                        .addGap(37, 37, 37))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnPDF)
-                        .addGap(53, 53, 53))))
+                .addGap(35, 35, 35)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnQuitter)
+                    .addComponent(btnPDF)
+                    .addComponent(ValiderBtn)
+                    .addComponent(nePasValiderBtn))
+                .addGap(33, 33, 33))
         );
 
         pack();
@@ -174,6 +202,23 @@ public class JDUneSortie extends javax.swing.JDialog {
         Sortie=new JDSorties(null, true);
         Sortie.setVisible(true);
     }//GEN-LAST:event_btnQuitterMouseClicked
+
+    private void ValiderBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ValiderBtnMouseClicked
+        // TODO add your handling code here:
+        // BTN valider SORTIE
+        int idAdmin = Passerelle.lEmploye.getId();
+        // Sortie laSortie = Sortie.getSortieByID();
+        Passerelle.validerSortie(laSortie, idAdmin, true);
+        
+    }//GEN-LAST:event_ValiderBtnMouseClicked
+
+    private void nePasValiderBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nePasValiderBtnMouseClicked
+        // TODO add your handling code here:
+        // BTN NE PAS VALIDER SORTIE
+        int idAdmin = Passerelle.lEmploye.getId();
+        // Sortie laSortie = Sortie.getSortieByID();
+        Passerelle.validerSortie(laSortie, idAdmin, false);
+    }//GEN-LAST:event_nePasValiderBtnMouseClicked
 
     /**
      * @param args the command line arguments
@@ -218,13 +263,16 @@ public class JDUneSortie extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton ValiderBtn;
     private javax.swing.JButton btnPDF;
     private javax.swing.JButton btnQuitter;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel lblInfoSortie;
+    private javax.swing.JToggleButton nePasValiderBtn;
     private javax.swing.JTextField txtDateSortie;
     private javax.swing.JTextField txtEmploye;
     private javax.swing.JTextField txtProduitSortie;

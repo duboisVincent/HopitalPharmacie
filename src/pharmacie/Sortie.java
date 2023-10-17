@@ -16,15 +16,30 @@ public class Sortie {
     private LocalDate dateSortie;
     private int nbProduits;
     private int idProduit;
+    private Integer idAdmin;
+    private Boolean estValide;
     
     //Constructeur
-    public Sortie(int pIdSortie, LocalDate pDateSortie, String pUtilisateur, int pIdProduit, int pNbProduits){
+    public Sortie(int pIdSortie, LocalDate pDateSortie, String pUtilisateur,int pNbProduits, int pIdProduit, int pIdAdmin, boolean pEstValide){
         idSortie = pIdSortie;
         dateSortie = pDateSortie;
         utilisateur = pUtilisateur;
+        nbProduits = pNbProduits;
         idProduit = pIdProduit;
-        nbProduits = pNbProduits;               
-    }
+        idAdmin = pIdAdmin;
+        estValide = pEstValide;
+    }   
+    
+        public Sortie(int pIdSortie, LocalDate pDateSortie, String pUtilisateur,int pNbProduits, int pIdProduit){
+        idSortie = pIdSortie;
+        dateSortie = pDateSortie;
+        utilisateur = pUtilisateur;
+        nbProduits = pNbProduits;
+        idProduit = pIdProduit;
+        idAdmin = null;
+        estValide = null;
+    }   
+    
     
     //Getters
     
@@ -69,6 +84,10 @@ public class Sortie {
     
     public void setLibelleProduit(int pIdProduit){
         idProduit = pIdProduit;           
+    }
+    
+    public int getIdProduit(){
+        return idProduit;
     }
     
     @Override
